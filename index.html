@@ -94,51 +94,45 @@
         <button onclick="searchNews()">Search</button>
     </div>
     <div class="headlines" id="headlines">
-        <!-- News headlines will appear here -->
-        <div class="headline">
-            <h3>Example Headline</h3>
-            <a href="#">Read Full Article</a>
-        </div>
-    </div>
-    <div class="headlines" id="news">
-        <h2>Latest News</h2>
-        <!-- Proper news articles will appear here -->
-        <div class="headline">
-            <h3>Breaking: Scientists Discover Water on Mars</h3>
-            <a href="#">Read Full Article</a>
-        </div>
-        <div class="headline">
-            <h3>World Leaders Meet to Discuss Climate Action</h3>
-            <a href="#">Read Full Article</a>
-        </div>
+        <h2>Featured Headlines</h2>
     </div>
     <script>
-        // Placeholder function for search functionality
+        async function fetchNews() {
+            const apiKey = 'edcfa58c5eb847a9ae8031540f8d4f6d'; // Replace with your actual API key
+            const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.status === 'ok') {
+                    const headlinesDiv = document.getElementById('headlines');
+                    headlinesDiv.innerHTML = '<h2>Featured Headlines</h2>'; // Clear existing content
+
+                    data.articles.forEach(article => {
+                        const headlineDiv = document.createElement('div');
+                        headlineDiv.className = 'headline';
+
+                        headlineDiv.innerHTML = `
+                            <h3>${article.title}</h3>
+                            <a href="${article.url}" target="_blank">Read Full Article</a>
+                        `;
+
+                        headlinesDiv.appendChild(headlineDiv);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        }
+
         function searchNews() {
             const query = document.getElementById('searchInput').value;
             alert('Searching for: ' + query);
-            // Add functionality to fetch and display news
         }
 
-        // Example of dynamically adding headlines (this would be replaced by an API call)
-        const headlinesDiv = document.getElementById('headlines');
-        const sampleHeadlines = [
-            { title: "Breaking: Market Hits Record Highs", link: "#" },
-            { title: "Global Warming: What Can We Do?", link: "#" },
-            { title: "Funny: Cat Becomes Mayor of Small Town", link: "#" }
-        ];
-
-        sampleHeadlines.forEach(news => {
-            const headlineDiv = document.createElement('div');
-            headlineDiv.className = 'headline';
-
-            headlineDiv.innerHTML = `
-                <h3>${news.title}</h3>
-                <a href="${news.link}">Read Full Article</a>
-            `;
-
-            headlinesDiv.appendChild(headlineDiv);
-        });
+        // Call fetchNews on page load
+        fetchNews();
     </script>
 </body>
 </html>

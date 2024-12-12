@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsbibble</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #444;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.2em;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .search-bar {
+            margin: 20px;
+            text-align: center;
+        }
+        .search-bar input {
+            width: 60%;
+            padding: 10px;
+            font-size: 1em;
+        }
+        .search-bar button {
+            padding: 10px 15px;
+            font-size: 1em;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: #555;
+        }
+        .headlines {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .headline {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .headline h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .headline a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .headline a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Newsbibble</h1>
+        <p>Your daily dose of top stories from around the world</p>
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#funny">Funny Tab</a>
+        <a href="#news">News</a>
+        <a href="#about">About</a>
+    </nav>
+    <div class="search-bar">
+        <input type="text" placeholder="Search for news..." id="searchInput">
+        <button onclick="searchNews()">Search</button>
+    </div>
+    <div class="headlines" id="headlines">
+        <!-- News headlines will appear here -->
+        <div class="headline">
+            <h3>Example Headline</h3>
+            <a href="#">Read Full Article</a>
+        </div>
+    </div>
+    <div class="headlines" id="news">
+        <h2>Latest News</h2>
+        <!-- Proper news articles will appear here -->
+        <div class="headline">
+            <h3>Breaking: Scientists Discover Water on Mars</h3>
+            <a href="#">Read Full Article</a>
+        </div>
+        <div class="headline">
+            <h3>World Leaders Meet to Discuss Climate Action</h3>
+            <a href="#">Read Full Article</a>
+        </div>
+    </div>
+    <script>
+        // Placeholder function for search functionality
+        function searchNews() {
+            const query = document.getElementById('searchInput').value;
+            alert('Searching for: ' + query);
+            // Add functionality to fetch and display news
+        }
+
+        // Example of dynamically adding headlines (this would be replaced by an API call)
+        const headlinesDiv = document.getElementById('headlines');
+        const sampleHeadlines = [
+            { title: "Breaking: Market Hits Record Highs", link: "#" },
+            { title: "Global Warming: What Can We Do?", link: "#" },
+            { title: "Funny: Cat Becomes Mayor of Small Town", link: "#" }
+        ];
+
+        sampleHeadlines.forEach(news => {
+            const headlineDiv = document.createElement('div');
+            headlineDiv.className = 'headline';
+
+            headlineDiv.innerHTML = `
+                <h3>${news.title}</h3>
+                <a href="${news.link}">Read Full Article</a>
+            `;
+
+            headlinesDiv.appendChild(headlineDiv);
+        });
+    </script>
+</body>
+</html>

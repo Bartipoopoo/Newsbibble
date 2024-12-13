@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,44 +95,92 @@
     </div>
     <div class="headlines" id="headlines">
         <h2>Featured Headlines</h2>
+        <div class="headline">
+            <h3>Breaking: Market Hits Record Highs</h3>
+            <a href="https://example.com/market-news" target="_blank">Read Full Article</a>
+        </div>
+        <div class="headline">
+            <h3>Global Warming: What Can We Do?</h3>
+            <a href="https://example.com/climate-action" target="_blank">Read Full Article</a>
+        </div>
+        <div class="headline">
+            <h3>Funny: Cat Becomes Mayor of Small Town</h3>
+            <a href="https://example.com/funny-cat" target="_blank">Read Full Article</a>
+        </div>
+    </div>
+    <div class="headlines" id="news">
+        <h2>Latest News</h2>
+        <div class="headline">
+            <h3>Breaking: Scientists Discover Water on Mars</h3>
+            <a href="https://example.com/water-on-mars" target="_blank">Read Full Article</a>
+        </div>
+        <div class="headline">
+            <h3>World Leaders Meet to Discuss Climate Action</h3>
+            <a href="https://example.com/climate-meeting" target="_blank">Read Full Article</a>
+        </div>
+        <div class="headline">
+            <h3>Tech: New AI Tech Promises Faster Processing</h3>
+            <a href="https://example.com/ai-tech" target="_blank">Read Full Article</a>
+        </div>
     </div>
     <script>
-        async function fetchNews() {
-            const apiKey = 'edcfa58c5eb847a9ae8031540f8d4f6d'; // Replace with your actual API key
-            const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+        const apiKey = 'edcfa58c5eb847a9ae8031540f8d4f6d';
 
+        async function fetchNews() {
+            const apiUrl = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
             try {
                 const response = await fetch(apiUrl);
-                const data = await response.json();
-
-                if (data.status === 'ok') {
-                    const headlinesDiv = document.getElementById('headlines');
-                    headlinesDiv.innerHTML = '<h2>Featured Headlines</h2>'; // Clear existing content
-
-                    data.articles.forEach(article => {
-                        const headlineDiv = document.createElement('div');
-                        headlineDiv.className = 'headline';
-
-                        headlineDiv.innerHTML = `
-                            <h3>${article.title}</h3>
-                            <a href="${article.url}" target="_blank">Read Full Article</a>
-                        `;
-
-                        headlinesDiv.appendChild(headlineDiv);
-                    });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+                const data = await response.json();
+                displayNews(data.articles);
             } catch (error) {
                 console.error('Error fetching news:', error);
             }
         }
 
-        function searchNews() {
-            const query = document.getElementById('searchInput').value;
-            alert('Searching for: ' + query);
+        function displayNews(articles) {
+            const headlinesContainer = document.getElementById('headlines');
+            headlinesContainer.innerHTML = '<h2>Featured Headlines</h2>';
+
+            articles.forEach(article => {
+                const headlineDiv = document.createElement('div');
+                headlineDiv.classList.add('headline');
+
+                const headlineTitle = document.createElement('h3');
+                headlineTitle.textContent = article.title;
+
+                const headlineLink = document.createElement('a');
+                headlineLink.href = article.url;
+                headlineLink.target = '_blank';
+                headlineLink.textContent = 'Read Full Article';
+
+                headlineDiv.appendChild(headlineTitle);
+                headlineDiv.appendChild(headlineLink);
+                headlinesContainer.appendChild(headlineDiv);
+            });
         }
 
-        // Call fetchNews on page load
+        function searchNews() {
+            const query = document.getElementById('searchInput').value;
+            const apiUrl = `https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`;
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => displayNews(data.articles))
+                .catch(error => console.error('Error searching news:', error));
+        }
+
+        // Fetch initial headlines
         fetchNews();
     </script>
 </body>
 </html>
+
+
+
